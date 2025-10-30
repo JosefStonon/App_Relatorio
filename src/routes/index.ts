@@ -80,3 +80,5 @@ export const routes: FastifyPluginAsync = async (fastify) => {
     },
   );
 };
+
+// nem aqui
