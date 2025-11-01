@@ -1,9 +1,9 @@
-import { InvoicesTable } from './views/components/invoicesTable';
+import Form from './views/components/form';
 
 function App() {
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100">
-      <InvoicesTable />
+    <div className=" flex justify-center max-w-full bg-slate-800 py-24">
+      <Form />
     </div>
   );
 }
