@@ -1,4 +1,4 @@
-export default function Form() {
+export function Form() {
   return (
     <form>
       <div className="space-y-12">
