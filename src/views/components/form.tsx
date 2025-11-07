@@ -1,5 +1,5 @@
+import { useToast } from '@/hooks/use-toast.ts';
 import { useForm } from 'react-hook-form';
-
 interface IformData {
   first_name: string;
   email: string;
@@ -22,9 +22,16 @@ export function Form() {
     },
   });
 
+  const { toast } = useToast();
+
   const handleSubmit = form((data) => {
     console.log('enviou');
     console.log(data);
+    toast({
+      title: 'Formulário Submetido',
+      description: 'Cadastro realizado com sucesso!',
+    });
+
     reset();
   });
 
@@ -139,7 +146,7 @@ export function Form() {
       </div>
 
       <div className="mt-6 flex items-center justify-end gap-x-6">
-        <button type="reset" className="text-sm/6 font-semibold text-white">
+        <button className="text-sm/6 font-semibold text-white" type="reset">
           Cancel
         </button>
         <button
