@@ -1,7 +1,5 @@
-
 generator client {
   provider = "prisma-client-js"
-
 }
 
 datasource db {
@@ -9,13 +7,32 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Company {
+  id        String @id @default(uuid()) @db.Uuid
+  name      String
+  tradeName String @unique
+  cnpj      Int    @unique
+  address   String
 
-model Pessoa {
-  id String @id @db.Uuid @default(uuid())
-  name String
-  email String @unique
-  sexo String
-  idade Int
+  machines Machine[]
 
   @@index([name])
+  @@map("companies")
+}
+
+model Machine {
+  machineId    String  @id @unique @default(uuid()) @db.Uuid
+  avaliation   String  @unique
+  nameMachine  String
+  tagEquipment String  @unique
+  haritage     Int     @unique
+  utility      String
+  brenchModel  String
+  serie        String?
+  capacity     String?
+
+  companies Company @relation(fields: [machineId], references: [id], onDelete: Cascade)
+
+  @@index([nameMachine])
+  @@map("machines")
 }

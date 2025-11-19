@@ -1,10 +1,11 @@
 import 'fastify';
 
-interface Pessoa {
+interface Company {
+  id: string;
   name: string;
-  email: string;
-  idade: number;
-  sexo: 'male' | 'female';
+  tradeName: string;
+  cnpj: string;
+  address: string;
 }
 
 interface Params {
@@ -13,7 +14,7 @@ interface Params {
 
 declare module 'fastify' {
   interface FastifyRequest {
-    Body: Pessoa;
+    Body: Company;
     Params: {
       id: string;
     };
