@@ -2,14 +2,15 @@ import { Company } from '@prisma/client';
 import { FastifyPluginAsync, FastifyRequest } from 'fastify';
 import { prismaClient } from '../lib';
 
-export const routes: FastifyPluginAsync = async (fastify) => {
+export const routesCompany: FastifyPluginAsync = async (fastify) => {
   fastify.post(
-    '/cias',
+    '/',
     async (request: FastifyRequest<{ Body: Company }>, reply) => {
-      const { address, cnpj, name, tradeName } = request.body;
+      const { id, address, cnpj, name, tradeName } = request.body;
 
       const companies = await prismaClient.company.create({
         data: {
+          id,
           name,
           cnpj,
           address,
@@ -21,9 +22,8 @@ export const routes: FastifyPluginAsync = async (fastify) => {
     },
   );
 
-  fastify.get('/cias', async (request: FastifyRequest, reply) => {
+  fastify.get('/', async (request: FastifyRequest, reply) => {
     const companies = await prismaClient.company.findMany({
-      distinct: ['name'],
       select: {
         machines: true,
         id: true,
@@ -38,7 +38,7 @@ export const routes: FastifyPluginAsync = async (fastify) => {
   });
 
   fastify.put(
-    '/cias/:id',
+    '/:id',
     async (
       request: FastifyRequest<{ Body: Company; Params: FastifyRequest }>,
       reply,
@@ -67,7 +67,7 @@ export const routes: FastifyPluginAsync = async (fastify) => {
   );
 
   fastify.delete(
-    '/cias/:id',
+    '/:id',
     async (request: FastifyRequest<{ Params: FastifyRequest }>, reply) => {
       const { id } = request.params;
 

@@ -8,31 +8,29 @@ datasource db {
 }
 
 model Company {
-  id        String @id @default(uuid()) @db.Uuid
+  id        String    @id @unique @default(uuid()) @db.Uuid
   name      String
-  tradeName String @unique
-  cnpj      Int    @unique
+  tradeName String    @unique
+  cnpj      Int       @unique
   address   String
-
-  machines Machine[]
+  machines  Machine[]
 
   @@index([name])
-  @@map("companies")
 }
 
 model Machine {
-  machineId    String  @id @unique @default(uuid()) @db.Uuid
-  avaliation   String  @unique
+  id           String  @unique @default(uuid()) @db.Uuid
+  avaliation   String
   nameMachine  String
   tagEquipment String  @unique
   haritage     Int     @unique
-  utility      String
+  utility      String?
   brenchModel  String
   serie        String?
   capacity     String?
 
-  companies Company @relation(fields: [machineId], references: [id], onDelete: Cascade)
+  company   Company? @relation(fields: [companyId], references: [id])
+  companyId String   @unique @default(uuid()) @db.Uuid
 
   @@index([nameMachine])
-  @@map("machines")
 }

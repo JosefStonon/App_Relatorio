@@ -1,9 +1,12 @@
 import Fastify from 'fastify';
-import { routes } from './routes/company';
+import { routesCompany } from './routes/company';
+import { routesMachine } from './routes/machine';
 
 const app = Fastify();
 
-app.register(routes, { prefix: '/admin' });
+app.register(routesMachine, { prefix: '/machines' });
+
+app.register(routesCompany, { prefix: '/companies' });
 
 app.setErrorHandler((error, request, reply) => {
   console.log(error);
