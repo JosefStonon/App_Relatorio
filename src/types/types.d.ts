@@ -20,7 +20,3 @@ export interface Machine {
   serie?: string;
   capacity?: string;
 }
-
-export interface Params {
-  id: string;
-}

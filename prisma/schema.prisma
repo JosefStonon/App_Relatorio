@@ -20,7 +20,6 @@ model Company {
 
 model Machine {
   id           String  @unique @default(uuid()) @db.Uuid
-  avaliation   String
   nameMachine  String
   tagEquipment String  @unique
   haritage     Int     @unique
@@ -29,8 +28,24 @@ model Machine {
   serie        String?
   capacity     String?
 
-  company   Company? @relation(fields: [companyId], references: [id])
-  companyId String   @unique @default(uuid()) @db.Uuid
+  company    Company     @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId  String      @unique @default(uuid()) @db.Uuid
+  avaliation Avaliation?
 
   @@index([nameMachine])
+}
+
+model Avaliation {
+  id           String   @unique @default(uuid()) @db.Uuid
+  date         DateTime
+  categoryRisk String
+  levelRisk    String
+  riskDirect   String
+  faceMachine  String
+  onOff        String
+
+  machine   Machine @relation(fields: [machineId], references: [id])
+  machineId String  @unique @default(uuid()) @db.Uuid
+
+  @@index([date])
 }

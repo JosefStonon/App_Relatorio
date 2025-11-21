@@ -7,7 +7,6 @@ export const routesMachine: FastifyPluginAsync = async (fastify) => {
     '/mac',
     async (request: FastifyRequest<{ Body: Machine }>, reply) => {
       const {
-        avaliation,
         nameMachine,
         tagEquipment,
         capacity,
@@ -21,7 +20,6 @@ export const routesMachine: FastifyPluginAsync = async (fastify) => {
       const machines = await prismaClient.machine.create({
         data: {
           nameMachine,
-          avaliation,
           tagEquipment,
           capacity,
           haritage,
@@ -54,6 +52,70 @@ export const routesMachine: FastifyPluginAsync = async (fastify) => {
         },
       });
       reply.send(machines);
+    },
+  );
+
+  fastify.put(
+    '/mac/:id',
+    async (
+      request: FastifyRequest<{ Body: Machine; Params: { id: string } }>,
+      reply,
+    ) => {
+      const { id } = request.params;
+      const {
+        nameMachine,
+        tagEquipment,
+        capacity,
+        haritage,
+        brenchModel,
+        serie,
+        utility,
+        companyId,
+      } = request.body;
+
+      const upDate = await prismaClient.machine.update({
+        data: {
+          nameMachine,
+          tagEquipment,
+          capacity,
+          haritage,
+          brenchModel,
+          serie,
+          utility,
+          companyId,
+        },
+        where: {
+          id,
+        },
+        select: {
+          id: true,
+          nameMachine: true,
+          avaliation: true,
+          tagEquipment: true,
+          capacity: true,
+          haritage: true,
+          brenchModel: true,
+          serie: true,
+          utility: true,
+          companyId: true,
+        },
+      });
+
+      reply.send({ upDate });
+    },
+  );
+
+  fastify.delete(
+    '/mac/:id',
+    async (request: FastifyRequest<{ Params: { id: string } }>, reply) => {
+      const { id } = request.params;
+
+      const deleteMachine = await prismaClient.machine.delete({
+        where: { id },
+        select: { id: true, nameMachine: true },
+      });
+
+      reply.send({ deleteMachine });
     },
   );
 };
