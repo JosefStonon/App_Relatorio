@@ -25,12 +25,24 @@ export const routesCompany: FastifyPluginAsync = async (fastify) => {
   fastify.get('/', async (request: FastifyRequest, reply) => {
     const companies = await prismaClient.company.findMany({
       select: {
-        machines: true,
-        id: true,
+        machines: {
+          select: {
+            nameMachine: true,
+            tagEquipment: true,
+            haritage: true,
+            avaliation: true,
+            brenchModel: true,
+            serie: true,
+            capacity: true,
+            utility: true,
+            companyId: true,
+          },
+        },
         name: true,
-        tradeName: true,
         cnpj: true,
         address: true,
+        tradeName: true,
+        id: true,
       },
     });
 

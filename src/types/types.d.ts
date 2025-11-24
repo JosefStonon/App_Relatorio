@@ -20,3 +20,14 @@ export interface Machine {
   serie?: string;
   capacity?: string;
 }
+
+export interface Avaliation {
+  id: string;
+  machineId: string;
+  dateAvaliation: string;
+  categoryRisk: string;
+  levelRisk: string;
+  riskDirect: string;
+  faceMachine: string;
+  onOff: string;
+}
