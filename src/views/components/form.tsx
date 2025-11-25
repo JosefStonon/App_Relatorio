@@ -1,10 +1,11 @@
 import { useToast } from '@/hooks/use-toast.ts';
 import { useForm } from 'react-hook-form';
 interface IformData {
-  first_name: string;
-  email: string;
-  sexo: string;
-  age: number;
+  empresa: string;
+  nome_fantasia: string;
+  cnpj: number;
+  endereco: string;
+  maquina: string;
 }
 
 export function Form() {
@@ -15,10 +16,11 @@ export function Form() {
     reset,
   } = useForm<IformData>({
     defaultValues: {
-      first_name: '',
-      email: '',
-      sexo: '',
-      age: undefined,
+      empresa: '',
+      nome_fantasia: '',
+      cnpj: undefined,
+      endereco: '',
+      maquina: '',
     },
   });
 
@@ -37,7 +39,7 @@ export function Form() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="space-y-12">
+      <div className="space-y-12 flex flex-col min-h-screen justify-center w-full p-16 bg-slate-800">
         <div className="border-b border-white/10 pb-12">
           <h2 className="text-base/7 font-semibold text-white">
             Personal Information
@@ -49,24 +51,24 @@ export function Form() {
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div className="sm:col-span-3">
               <label
-                htmlFor="first_name"
+                htmlFor="empresa"
                 className="block text-sm/6 font-medium text-white"
               >
-                First name
+                Company
               </label>
               <div className="mt-2">
                 <input
-                  {...register('first_name', {
+                  {...register('empresa', {
                     required: true,
                   })}
-                  id="first_name"
-                  name="first_name"
+                  id="empresa"
+                  name="empresa"
                   type="text"
                   autoComplete="given-name"
                   className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
                 />
               </div>
-              {formState.errors.first_name && (
+              {formState.errors.empresa && (
                 <small className="text-red-400">
                   Este campo é obrigatório!
                 </small>
@@ -75,67 +77,106 @@ export function Form() {
 
             <div className="sm:col-span-4">
               <label
-                htmlFor="email"
+                htmlFor="nome_fantasia"
                 className="block text-sm/6 font-medium text-white"
               >
-                Email address
+                Nome Fantasia
               </label>
               <div className="mt-2">
                 <input
-                  {...register('email')}
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
+                  {...register('nome_fantasia')}
+                  id="nome_fantasia"
+                  name="nome_fantasia"
+                  type="text"
+                  autoComplete="nome_fantasia"
                   className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
                 />
               </div>
-              {formState.errors.email && (
+              {formState.errors.nome_fantasia && (
                 <small className="text-red-400">
                   Este campo é obrigatório!
                 </small>
               )}
             </div>
 
-            <div className="sm:col-span-3">
+            <div className="col-span-full">
               <label
-                htmlFor="sexo"
+                htmlFor="cnpj"
                 className="block text-sm/6 font-medium text-white"
               >
-                Sexo
+                CNPJ
               </label>
-              <div className="mt-2 grid grid-cols-1">
-                <select
-                  {...register('sexo')}
-                  id="sexo"
-                  name="sexo"
-                  autoComplete="gender-sexo"
-                  className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white/5 py-1.5 pl-3 pr-8 text-base text-white outline outline-1 -outline-offset-1 outline-white/10 *:bg-gray-800 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
-                >
-                  <option>Female</option>
-                  <option>male</option>
-                </select>
+              <div className="mt-2 w-40">
+                <input
+                  {...register('cnpj')}
+                  id="cnpj"
+                  name="cnpj"
+                  type="number"
+                  autoComplete="cnpj"
+                  className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
+                />
               </div>
+              {formState.errors.cnpj && (
+                <small className="text-red-400">
+                  Este campo é obrigatório!
+                </small>
+              )}
             </div>
 
             <div className="col-span-full">
               <label
-                htmlFor="age"
+                htmlFor="endereco"
                 className="block text-sm/6 font-medium text-white"
               >
-                Idade
+                Endereço
               </label>
-              <div className="mt-2">
+              <div className="mt-2 w-40">
                 <input
-                  {...register('age')}
-                  id="age"
-                  name="age"
-                  type="number"
-                  autoComplete="age"
+                  {...register('endereco')}
+                  id="endereco"
+                  name="endereco"
+                  type="texto"
+                  autoComplete="endereco"
                   className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
                 />
               </div>
-              {formState.errors.age && (
+              {formState.errors.endereco && (
+                <small className="text-red-400">
+                  Este campo é obrigatório!
+                </small>
+              )}
+            </div>
+
+            <div className="col-span-full">
+              <label
+                htmlFor="maquina"
+                className="block text-sm/6 font-medium text-white"
+              >
+                Maquina
+              </label>
+              <div className="mt-2 w-50">
+                <select
+                  {...register('maquina')}
+                  id="maquina"
+                  name="maquina"
+                  autoComplete="maquina"
+                  className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
+                >
+                  <option className="bg-slate-800" value="">
+                    Selecione uma máquina
+                  </option>
+                  <option className="bg-slate-800" value="maquina1">
+                    Máquina 1
+                  </option>
+                  <option className="bg-slate-800" value="maquina2">
+                    Máquina 2
+                  </option>
+                  <option className="bg-slate-800" value="maquina3">
+                    Máquina 3
+                  </option>
+                </select>
+              </div>
+              {formState.errors.maquina && (
                 <small className="text-red-400">
                   Este campo é obrigatório!
                 </small>
@@ -143,18 +184,17 @@ export function Form() {
             </div>
           </div>
         </div>
-      </div>
-
-      <div className="mt-6 flex items-center justify-end gap-x-6">
-        <button className="text-sm/6 font-semibold text-white" type="reset">
-          Cancel
-        </button>
-        <button
-          type="submit"
-          className="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-        >
-          Save
-        </button>
+        <div className="mt-6 flex items-center justify-end gap-x-6">
+          <button className="text-sm/6 font-semibold" type="reset">
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+          >
+            Save
+          </button>
+        </div>
       </div>
     </form>
   );
