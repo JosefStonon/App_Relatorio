@@ -4,7 +4,7 @@ export interface Company {
   id: string;
   name: string;
   tradeName: string;
-  cnpj: Float;
+  cnpj: string;
   address: string;
 }
 

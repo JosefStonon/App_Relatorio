@@ -1,6 +1,6 @@
-import { Company } from '@prisma/client';
 import { FastifyPluginAsync, FastifyRequest } from 'fastify';
 import { prismaClient } from '../lib';
+import { Company } from '../types/types';
 
 export const routesCompany: FastifyPluginAsync = async (fastify) => {
   fastify.post(
@@ -12,9 +12,15 @@ export const routesCompany: FastifyPluginAsync = async (fastify) => {
         data: {
           id,
           name,
+          tradeName,
           cnpj,
           address,
-          tradeName,
+        },
+        select: {
+          name: true,
+          tradeName: true,
+          cnpj: true,
+          address: true,
         },
       });
 

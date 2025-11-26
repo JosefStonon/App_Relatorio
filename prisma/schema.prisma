@@ -11,7 +11,7 @@ model Company {
   id        String    @id @unique @default(uuid()) @db.Uuid
   name      String
   tradeName String    @unique
-  cnpj      Int       @unique
+  cnpj      String    @unique
   address   String
   machines  Machine[]
 
@@ -44,7 +44,7 @@ model Avaliation {
   faceMachine  String
   onOff        String
 
-  machine   Machine @relation(fields: [machineId], references: [id])
+  machine   Machine @relation(fields: [machineId], references: [id], onDelete: Cascade)
   machineId String  @unique @default(uuid()) @db.Uuid
 
   @@index([date])
