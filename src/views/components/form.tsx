@@ -1,11 +1,11 @@
 import { useToast } from '@/hooks/use-toast.ts';
+import { createCompany } from '@/services/services.ts';
 import { useForm } from 'react-hook-form';
-interface IformData {
-  empresa: string;
-  nome_fantasia: string;
+export interface IformData {
+  name: string;
+  tradeName: string;
   cnpj: number;
-  endereco: string;
-  maquina: string;
+  address: string;
 }
 
 export function Form() {
@@ -14,27 +14,31 @@ export function Form() {
     register,
     formState,
     reset,
-  } = useForm<IformData>({
-    defaultValues: {
-      empresa: '',
-      nome_fantasia: '',
-      cnpj: undefined,
-      endereco: '',
-      maquina: '',
-    },
-  });
+  } = useForm<IformData>({});
 
   const { toast } = useToast();
 
-  const handleSubmit = form((data) => {
-    console.log('enviou');
-    console.log(data);
-    toast({
-      title: 'Formulário Submetido',
-      description: 'Cadastro realizado com sucesso!',
-    });
+  const handleSubmit = form(async (data) => {
+    try {
+      const result = await createCompany(data);
 
-    reset();
+      toast({
+        title: 'Sucesso!',
+        description: 'Cadastro realizado com sucesso!',
+      });
+
+      console.log('Retorno do servidor:', result);
+
+      reset();
+    } catch (error: any) {
+      toast({
+        title: 'Erro ao enviar',
+        description: error.message ?? 'Falha inesperada',
+        variant: 'destructive',
+      });
+
+      console.error('Erro ao criar empresa:', error);
+    }
   });
 
   return (
@@ -51,24 +55,24 @@ export function Form() {
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div className="sm:col-span-3">
               <label
-                htmlFor="empresa"
+                htmlFor="name"
                 className="block text-sm/6 font-medium text-white"
               >
                 Company
               </label>
               <div className="mt-2">
                 <input
-                  {...register('empresa', {
+                  {...register('name', {
                     required: true,
                   })}
-                  id="empresa"
-                  name="empresa"
+                  id="name"
+                  name="name"
                   type="text"
                   autoComplete="given-name"
                   className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
                 />
               </div>
-              {formState.errors.empresa && (
+              {formState.errors.name && (
                 <small className="text-red-400">
                   Este campo é obrigatório!
                 </small>
@@ -77,22 +81,22 @@ export function Form() {
 
             <div className="sm:col-span-4">
               <label
-                htmlFor="nome_fantasia"
+                htmlFor="tradeName"
                 className="block text-sm/6 font-medium text-white"
               >
                 Nome Fantasia
               </label>
               <div className="mt-2">
                 <input
-                  {...register('nome_fantasia')}
-                  id="nome_fantasia"
-                  name="nome_fantasia"
+                  {...register('tradeName')}
+                  id="tradeName"
+                  name="tradeName"
                   type="text"
-                  autoComplete="nome_fantasia"
+                  autoComplete="tradeName"
                   className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
                 />
               </div>
-              {formState.errors.nome_fantasia && (
+              {formState.errors.tradeName && (
                 <small className="text-red-400">
                   Este campo é obrigatório!
                 </small>
@@ -125,58 +129,22 @@ export function Form() {
 
             <div className="col-span-full">
               <label
-                htmlFor="endereco"
+                htmlFor="address"
                 className="block text-sm/6 font-medium text-white"
               >
                 Endereço
               </label>
               <div className="mt-2 w-40">
                 <input
-                  {...register('endereco')}
-                  id="endereco"
-                  name="endereco"
+                  {...register('address')}
+                  id="address"
+                  name="address"
                   type="texto"
-                  autoComplete="endereco"
+                  autoComplete="address"
                   className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
                 />
               </div>
-              {formState.errors.endereco && (
-                <small className="text-red-400">
-                  Este campo é obrigatório!
-                </small>
-              )}
-            </div>
-
-            <div className="col-span-full">
-              <label
-                htmlFor="maquina"
-                className="block text-sm/6 font-medium text-white"
-              >
-                Maquina
-              </label>
-              <div className="mt-2 w-50">
-                <select
-                  {...register('maquina')}
-                  id="maquina"
-                  name="maquina"
-                  autoComplete="maquina"
-                  className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
-                >
-                  <option className="bg-slate-800" value="">
-                    Selecione uma máquina
-                  </option>
-                  <option className="bg-slate-800" value="maquina1">
-                    Máquina 1
-                  </option>
-                  <option className="bg-slate-800" value="maquina2">
-                    Máquina 2
-                  </option>
-                  <option className="bg-slate-800" value="maquina3">
-                    Máquina 3
-                  </option>
-                </select>
-              </div>
-              {formState.errors.maquina && (
+              {formState.errors.address && (
                 <small className="text-red-400">
                   Este campo é obrigatório!
                 </small>

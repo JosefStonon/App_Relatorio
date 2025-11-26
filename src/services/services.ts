@@ -1,9 +1,13 @@
-const API_URL = 'http://localhost:3333';
+import type { IformData } from '@/views/components/form';
 
-export async function createCompany(data: any) {
-  const res = await fetch(`${API_URL}/company`, {
+const API_URL = 'http://localhost:3001';
+
+export async function createCompany(data: IformData) {
+  const res = await fetch(`${API_URL}/companies`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify(data),
   });
 
