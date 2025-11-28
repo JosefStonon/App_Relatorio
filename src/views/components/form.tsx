@@ -1,11 +1,16 @@
 import { useToast } from '@/hooks/use-toast.ts';
-import { createCompany } from '@/services/services.ts';
+import CompanyService from '@/services/CompanyService';
 import { useForm } from 'react-hook-form';
 export interface IformData {
   name: string;
   tradeName: string;
   cnpj: number;
   address: string;
+}
+
+interface Ierrors {
+  field: string;
+  message: string;
 }
 
 export function Form() {
@@ -19,8 +24,15 @@ export function Form() {
   const { toast } = useToast();
 
   const handleSubmit = form(async (data) => {
+    console.log('Dados do formulário:', data);
     try {
-      const result = await createCompany(data);
+      const company: IformData = {
+        name: data.name,
+        tradeName: data.tradeName,
+        cnpj: data.cnpj,
+        address: data.address,
+      };
+      const result = await CompanyService.createCompany(company);
 
       toast({
         title: 'Sucesso!',
@@ -30,17 +42,18 @@ export function Form() {
       console.log('Retorno do servidor:', result);
 
       reset();
-    } catch (error: any) {
+    } catch (error: Ierrors | any) {
       toast({
         title: 'Erro ao enviar',
         description: error.message ?? 'Falha inesperada',
         variant: 'destructive',
       });
 
-      console.error('Erro ao criar empresa:', error);
+      console.error({ field: 'name', message: 'Este campo é obrigatório!' });
     }
   });
 
+  console.log('reinderizou');
   return (
     <form onSubmit={handleSubmit}>
       <div className="space-y-12 flex flex-col min-h-screen justify-center w-full p-16 bg-slate-800">
