@@ -48,11 +48,10 @@ export const routesCompany: FastifyPluginAsync = async (fastify) => {
         cnpj: true,
         address: true,
         tradeName: true,
-        id: true,
       },
     });
 
-    reply.send({ companies });
+    reply.code(201).send(companies);
   });
 
   fastify.put(
