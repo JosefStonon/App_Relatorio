@@ -17,6 +17,7 @@ export const routesCompany: FastifyPluginAsync = async (fastify) => {
           address,
         },
         select: {
+          id: true,
           name: true,
           tradeName: true,
           cnpj: true,
@@ -44,6 +45,7 @@ export const routesCompany: FastifyPluginAsync = async (fastify) => {
             companyId: true,
           },
         },
+        id: true,
         name: true,
         cnpj: true,
         address: true,
@@ -79,7 +81,7 @@ export const routesCompany: FastifyPluginAsync = async (fastify) => {
         },
       });
 
-      reply.send({ upDate });
+      reply.send(upDate);
     },
   );
 
@@ -93,7 +95,7 @@ export const routesCompany: FastifyPluginAsync = async (fastify) => {
         select: { id: true, cnpj: true },
       });
 
-      reply.send({ deleteUser });
+      reply.send(deleteUser);
     },
   );
 };
