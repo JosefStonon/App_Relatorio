@@ -1,3 +1,5 @@
+import type { RequestOptions } from '../../types';
+
 class HttpClient {
   baseURL: string;
 
@@ -5,17 +7,43 @@ class HttpClient {
     this.baseURL = baseURL;
   }
 
-  async post<T, Body = unknown>(path: string, body: Body): Promise<T> {
-    const headers = new Headers({
-      'Content-Type': 'application/json',
+  get<T>(path: string, option?: RequestOptions) {
+    return this.makeRequest<T>(path, {
+      method: 'GET',
+      ...option,
     });
-    const response = await fetch(`${this.baseURL}${path}`, {
+  }
+
+  post<T>(path: string, option?: RequestOptions) {
+    return this.makeRequest<T>(path, {
       method: 'POST',
+      ...option,
+    });
+  }
+
+  async makeRequest<T>(path: string, option: RequestOptions): Promise<T> {
+    const headers = new Headers();
+
+    // if (option.body) {
+    //   headers.append(
+    //     'Content-Type', 'application/json'
+    //   )
+    // };
+
+    if (option.headers) {
+      Object.entries(option.headers).forEach(([name, value]) => {
+        headers.append(name, value);
+      });
+    }
+    const response = await fetch(`${this.baseURL}${path}`, {
+      method: option.method,
       headers,
-      body: JSON.stringify(body),
+      body: JSON.stringify(option.body),
     });
 
-    return response.json() as Promise<T>;
+    if (!response.ok) throw new Error(`Erro HTTP ${response.status}`);
+
+    return response.json();
   }
 }
 

@@ -1,17 +1,7 @@
 import { useToast } from '@/hooks/use-toast.ts';
 import CompanyService from '@/services/CompanyService';
 import { useForm } from 'react-hook-form';
-export interface IformData {
-  name: string;
-  tradeName: string;
-  cnpj: number;
-  address: string;
-}
-
-interface Ierrors {
-  field: string;
-  message: string;
-}
+import type { Ierrors, IformData } from '../../types';
 
 export function Form() {
   const {
