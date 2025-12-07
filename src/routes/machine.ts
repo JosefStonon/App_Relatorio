@@ -4,9 +4,10 @@ import { Machine } from '../types/types';
 
 export const routesMachine: FastifyPluginAsync = async (fastify) => {
   fastify.post(
-    '/mac',
+    '/mach',
     async (request: FastifyRequest<{ Body: Machine }>, reply) => {
       const {
+        id,
         nameMachine,
         tagEquipment,
         capacity,
@@ -17,8 +18,17 @@ export const routesMachine: FastifyPluginAsync = async (fastify) => {
         companyId,
       } = request.body;
 
+      const company = await prismaClient.company.findUnique({
+        where: { nameCompany: companyId },
+      });
+
+      if (!company) {
+        return reply.code(400).send({ error: 'Empresa não encontrada' });
+      }
+
       const machines = await prismaClient.machine.create({
         data: {
+          id,
           nameMachine,
           tagEquipment,
           capacity,
@@ -26,7 +36,7 @@ export const routesMachine: FastifyPluginAsync = async (fastify) => {
           brenchModel,
           serie,
           utility,
-          companyId,
+          companyId: company.id,
         },
       });
 
@@ -35,7 +45,7 @@ export const routesMachine: FastifyPluginAsync = async (fastify) => {
   );
 
   fastify.get(
-    '/mac',
+    '/mach',
     async (request: FastifyRequest<{ Body: Machine }>, reply) => {
       const machines = await prismaClient.machine.findMany({
         select: {

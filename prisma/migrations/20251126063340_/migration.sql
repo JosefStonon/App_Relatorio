@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "Company" ALTER COLUMN "cnpj" SET DATA TYPE TEXT;

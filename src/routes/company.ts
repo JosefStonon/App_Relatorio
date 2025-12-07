@@ -6,19 +6,19 @@ export const routesCompany: FastifyPluginAsync = async (fastify) => {
   fastify.post(
     '/',
     async (request: FastifyRequest<{ Body: Company }>, reply) => {
-      const { id, address, cnpj, name, tradeName } = request.body;
+      const { id, address, cnpj, nameCompany, tradeName } = request.body;
 
       const companies = await prismaClient.company.create({
         data: {
           id,
-          name,
+          nameCompany,
           tradeName,
           cnpj,
           address,
         },
         select: {
           id: true,
-          name: true,
+          nameCompany: true,
           tradeName: true,
           cnpj: true,
           address: true,
@@ -46,7 +46,7 @@ export const routesCompany: FastifyPluginAsync = async (fastify) => {
           },
         },
         id: true,
-        name: true,
+        nameCompany: true,
         cnpj: true,
         address: true,
         tradeName: true,
@@ -63,11 +63,11 @@ export const routesCompany: FastifyPluginAsync = async (fastify) => {
       reply,
     ) => {
       const { id } = request.params;
-      const { name, address, tradeName, cnpj } = request.body;
+      const { nameCompany, address, tradeName, cnpj } = request.body;
 
       const upDate = await prismaClient.company.update({
         data: {
-          name,
+          nameCompany,
           cnpj,
           tradeName,
           address,
@@ -77,7 +77,7 @@ export const routesCompany: FastifyPluginAsync = async (fastify) => {
         },
         select: {
           id: true,
-          name: true,
+          nameCompany: true,
         },
       });
 

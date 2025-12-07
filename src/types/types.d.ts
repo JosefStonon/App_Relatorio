@@ -2,7 +2,7 @@ import 'fastify';
 
 export interface Company {
   id: string;
-  name: string;
+  nameCompany: string;
   tradeName: string;
   cnpj: string;
   address: string;
@@ -14,11 +14,12 @@ export interface Machine {
   avaliation: string;
   nameMachine: string;
   tagEquipment: string;
-  haritage: Float;
+  haritage: string;
   utility?: string;
   brenchModel: string;
   serie?: string;
   capacity?: string;
+  nameCompany: string;
 }
 
 export interface Avaliation {
