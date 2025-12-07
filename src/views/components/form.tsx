@@ -17,7 +17,7 @@ export function Form() {
     console.log('Dados do formulário:', data);
     try {
       const company: IformData = {
-        name: data.name,
+        nameCompany: data.nameCompany,
         tradeName: data.tradeName,
         cnpj: data.cnpj,
         address: data.address,
@@ -39,7 +39,7 @@ export function Form() {
         variant: 'destructive',
       });
 
-      console.error({ field: 'name', message: 'Este campo é obrigatório!' });
+      console.error({ field: 'Creation', message: 'nao deu certo!' });
     }
   });
 
@@ -65,17 +65,17 @@ export function Form() {
               </label>
               <div className="mt-2">
                 <input
-                  {...register('name', {
+                  {...register('nameCompany', {
                     required: true,
                   })}
-                  id="name"
-                  name="name"
+                  id="nameCompany"
+                  name="nameCompany"
                   type="text"
-                  autoComplete="given-name"
+                  autoComplete="given-nameCompany"
                   className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
                 />
               </div>
-              {formState.errors.name && (
+              {formState.errors.nameCompany && (
                 <small className="text-red-400">
                   Este campo é obrigatório!
                 </small>

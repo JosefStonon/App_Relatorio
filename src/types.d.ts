@@ -9,10 +9,22 @@ export type Idata = {
 };
 
 export interface IformData {
-  name: string;
+  id?: string;
+  nameCompany: string;
   tradeName: string;
   cnpj: number;
   address: string;
+}
+
+export interface ImachineData {
+  nameMachine: string;
+  tagEquipment: string;
+  haritage: string;
+  utility: string;
+  brenchModel: string;
+  serie: string;
+  capacity: string;
+  companyId: string;
 }
 
 export interface Ierrors {

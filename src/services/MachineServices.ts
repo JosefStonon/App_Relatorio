@@ -1,27 +1,25 @@
-import type { IformData } from '../types';
+import type { ImachineData } from '../types';
 import HttpClient from './Utils/HttpClient';
 
-class CompanyService {
+class MachineServices {
   HttpClient: HttpClient;
-
   constructor() {
     this.HttpClient = new HttpClient('http://localhost:3001');
   }
-
-  async createCompany(data: IformData) {
-    return this.HttpClient.post(`/companies`, {
+  async createMachine(data: ImachineData) {
+    return this.HttpClient.post(`/machines/mach`, {
       method: 'POST',
-      body: data,
       headers: { 'Content-Type': 'application/json' },
+      body: data,
     });
   }
 
-  getCompany() {
-    return this.HttpClient.get<IformData[]>('/companies', {
+  getMachine() {
+    return this.HttpClient.get<ImachineData[]>('machines/mach', {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     });
   }
 }
 
-export default new CompanyService();
+export default new MachineServices();

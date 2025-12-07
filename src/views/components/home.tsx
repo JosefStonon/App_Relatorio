@@ -12,28 +12,34 @@ export function Home() {
 
   const [company, setCompany] = useState<IformData[]>([]);
 
-  useEffect(() => {
-    async function loadCompany() {
-      try {
-        setIsLoad(true);
-        const data: IformData[] = await CompanyService.getCompany();
-        await delay(2000);
-        setCompany(data);
-        console.log('DATA =>', data);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setIsLoad(false);
-      }
+  async function loadCompany() {
+    try {
+      setIsLoad(true);
+      const data: IformData[] = await CompanyService.getCompany();
+      await delay(2000);
+      console.log(data);
+      setCompany(data);
+      console.log('DATA =>', data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoad(false);
     }
+  }
+
+  useEffect(() => {
     loadCompany();
   }, []);
 
   return (
     <div className=" flex flex-col min-h-screen justify-center w-full bg-slate-800">
-      {isLoad && <Spinner className="" />}
+      {isLoad && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50">
+          <Spinner className="w-16 h-16" />
+        </div>
+      )}
       <div className="flex flex-row justify-center">
-        <Button className="m-20 mx-1 mb-6 w-32" onClick={() => company}>
+        <Button className="m-20 mx-1 mb-6 w-32" onClick={loadCompany}>
           Linting Company
         </Button>
         <Button className="m-20 mx-1 w-32">

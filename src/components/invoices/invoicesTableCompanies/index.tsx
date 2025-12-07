@@ -23,7 +23,7 @@ export function CompanyTable({ invoices }: Idata) {
       <TableBody>
         {invoices.map((invoice) => (
           <TableRow key={invoice.address}>
-            <TableCell className="font-medium">{invoice.name}</TableCell>
+            <TableCell className="font-medium">{invoice.nameCompany}</TableCell>
             <TableCell>{invoice.tradeName}</TableCell>
             <TableCell>{invoice.cnpj}</TableCell>
             <TableCell className="text-right">{invoice.address}</TableCell>
