@@ -15,7 +15,7 @@ class MachineServices {
   }
 
   getMachine() {
-    return this.HttpClient.get<ImachineData[]>('machines/mach', {
+    return this.HttpClient.get<ImachineData[]>('/machines/mach', {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     });

@@ -8,6 +8,10 @@ export type Idata = {
   invoices: IformData[];
 };
 
+export type IdataMachine = {
+  invoices: ImachineData[];
+};
+
 export interface IformData {
   id?: string;
   nameCompany: string;
