@@ -16,10 +16,24 @@ class CompanyService {
     });
   }
 
-  getCompany() {
+  async getCompany() {
     return this.HttpClient.get<IformData[]>('/companies', {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  upDateCompany(id: string, data: IformData) {
+    return this.HttpClient.put(`/companies/${id}`, {
+      method: 'PUT',
+      body: data,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  deleteCompany(id: string) {
+    return this.HttpClient.delete(`/companies/${id}`, {
+      method: 'DELETE',
     });
   }
 }

@@ -1,3 +1,14 @@
+import { Button } from '@/components/ui/button';
+import { ButtonGroup } from '@/components/ui/button-group';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+
 import {
   Table,
   TableBody,
@@ -8,6 +19,16 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import type { IdataMachine } from '@/types';
+import {
+  AlertTriangleIcon,
+  CheckIcon,
+  ChevronDownIcon,
+  CopyIcon,
+  ShareIcon,
+  TrashIcon,
+  UserRoundXIcon,
+  VolumeOffIcon,
+} from 'lucide-react';
 
 export function MachinesTable({ invoices }: IdataMachine) {
   return (
@@ -33,6 +54,53 @@ export function MachinesTable({ invoices }: IdataMachine) {
             <TableCell className="text-right">{invoice.utility}</TableCell>
             <TableCell className="text-right">{invoice.serie}</TableCell>
             <TableCell className="text-right">{invoice.capacity}</TableCell>
+            <TableCell className="text-right">
+              <ButtonGroup>
+                <Button variant="outline">Visualizar</Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" className="!pl-2">
+                      <ChevronDownIcon />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="[--radius:1rem]">
+                    <DropdownMenuGroup>
+                      <DropdownMenuItem>
+                        <VolumeOffIcon />
+                        Mute Conversation
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <CheckIcon />
+                        Mark as Read
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <AlertTriangleIcon />
+                        Report Conversation
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <UserRoundXIcon />
+                        Block User
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <ShareIcon />
+                        Share Conversation
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <CopyIcon />
+                        Copy Conversation
+                      </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuGroup>
+                      <DropdownMenuItem className="text-destructive focus:text-destructive">
+                        <TrashIcon />
+                        Delete Conversation
+                      </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </ButtonGroup>
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>

@@ -1,3 +1,14 @@
+import { Button } from '@/components/ui/button';
+import { ButtonGroup } from '@/components/ui/button-group';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+
 import {
   Table,
   TableBody,
@@ -8,8 +19,18 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import type { Idata } from '@/types';
+import {
+  AlertTriangleIcon,
+  CheckIcon,
+  ChevronDownIcon,
+  CopyIcon,
+  ShareIcon,
+  TrashIcon,
+  UserRoundXIcon,
+  VolumeOffIcon,
+} from 'lucide-react';
 
-export function CompanyTable({ invoices }: Idata) {
+export function CompanyTable({ invoices, onConfirm }: Idata) {
   return (
     <Table className="bg-slate-100">
       <TableHeader>
@@ -17,16 +38,76 @@ export function CompanyTable({ invoices }: Idata) {
           <TableHead className="w-[100px]">Companies</TableHead>
           <TableHead>Trade Name</TableHead>
           <TableHead>CNPJ</TableHead>
-          <TableHead className="text-right">Address</TableHead>
+          <TableHead className="text-right">CEP</TableHead>
+          <TableHead className="text-right">Rua</TableHead>
+          <TableHead className="text-right">Numero</TableHead>
+          <TableHead className="text-right">Bairro</TableHead>
+          <TableHead className="text-right">Cidade</TableHead>
+          <TableHead className="text-right">Estado</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {invoices.map((invoice) => (
-          <TableRow key={invoice.address}>
+          <TableRow key={invoice.id}>
             <TableCell className="font-medium">{invoice.nameCompany}</TableCell>
             <TableCell>{invoice.tradeName}</TableCell>
             <TableCell>{invoice.cnpj}</TableCell>
-            <TableCell className="text-right">{invoice.address}</TableCell>
+            <TableCell className="text-right">{invoice.cep}</TableCell>
+            <TableCell className="text-right">{invoice.rua}</TableCell>
+            <TableCell className="text-right">{invoice.numero}</TableCell>
+            <TableCell className="text-right">{invoice.bairro}</TableCell>
+            <TableCell className="text-right">{invoice.cidade}</TableCell>
+            <TableCell className="text-right">{invoice.estado}</TableCell>
+            <TableCell className="text-right">
+              <ButtonGroup>
+                <Button variant="outline">Visualizar</Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" className="!pl-2">
+                      <ChevronDownIcon />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="[--radius:1rem]">
+                    <DropdownMenuGroup>
+                      <DropdownMenuItem>
+                        <VolumeOffIcon />
+                        Mute Conversation
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <CheckIcon />
+                        Mark as Read
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <AlertTriangleIcon />
+                        Report Conversation
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <UserRoundXIcon />
+                        Block User
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <ShareIcon />
+                        Share Conversation
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <CopyIcon />
+                        Atualizar
+                      </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuGroup>
+                      <DropdownMenuItem
+                        className="text-destructive focus:text-destructive"
+                        onClick={() => onConfirm(invoice.id!)}
+                      >
+                        <TrashIcon />
+                        Delete Conversation
+                      </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </ButtonGroup>
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>

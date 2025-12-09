@@ -2,6 +2,7 @@ import { CompanyTable } from '@/components/invoices/invoicesTableCompanies';
 import { MachinesTable } from '@/components/invoices/invoicesTableMachines';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
+import { useToast } from '@/hooks/use-toast';
 import CompanyService from '@/services/CompanyService';
 import MachineService from '@/services/MachineServices';
 import { useEffect, useState } from 'react';
@@ -13,6 +14,8 @@ export function Home() {
 
   const [company, setCompany] = useState<IformData[]>([]);
   const [machine, setMachine] = useState<ImachineData[]>([]);
+
+  const { toast } = useToast();
 
   async function loadCompany() {
     try {
@@ -33,6 +36,23 @@ export function Home() {
       console.log('DATA =>', dataMachine);
     } catch (error) {
       console.error(error);
+    }
+  }
+
+  async function deleteCompany(id: string) {
+    try {
+      await CompanyService.deleteCompany(id);
+      loadCompany();
+
+      toast({
+        title: 'Company deleted',
+        description: 'The company has been successfully deleted.',
+      });
+    } catch (error) {
+      toast({
+        title: 'Danger',
+        description: 'There was an error deleting the company.',
+      });
     }
   }
 
@@ -57,7 +77,7 @@ export function Home() {
         </Button>
       </div>
       <div className="p-10">
-        <CompanyTable invoices={company} />
+        <CompanyTable invoices={company} onConfirm={deleteCompany} />
       </div>
 
       <div className="flex flex-row justify-center">

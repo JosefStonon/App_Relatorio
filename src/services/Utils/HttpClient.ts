@@ -7,6 +7,13 @@ class HttpClient {
     this.baseURL = baseURL;
   }
 
+  post<T>(path: string, option?: RequestOptions) {
+    return this.makeRequest<T>(path, {
+      method: 'POST',
+      ...option,
+    });
+  }
+
   get<T>(path: string, option?: RequestOptions) {
     return this.makeRequest<T>(path, {
       method: 'GET',
@@ -14,9 +21,16 @@ class HttpClient {
     });
   }
 
-  post<T>(path: string, option?: RequestOptions) {
+  put<T>(path: string, option?: RequestOptions) {
     return this.makeRequest<T>(path, {
-      method: 'POST',
+      method: 'PUT',
+      ...option,
+    });
+  }
+
+  delete<T>(path: string, option?: RequestOptions) {
+    return this.makeRequest<T>(path, {
+      method: 'DELETE',
       ...option,
     });
   }
