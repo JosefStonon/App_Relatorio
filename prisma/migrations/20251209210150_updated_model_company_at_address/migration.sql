@@ -4,7 +4,12 @@ CREATE TABLE "Company" (
     "nameCompany" TEXT NOT NULL,
     "tradeName" TEXT NOT NULL,
     "cnpj" TEXT NOT NULL,
-    "address" TEXT NOT NULL,
+    "cep" TEXT NOT NULL,
+    "rua" TEXT NOT NULL,
+    "numero" TEXT NOT NULL,
+    "bairro" TEXT NOT NULL,
+    "cidade" TEXT NOT NULL,
+    "estado" TEXT NOT NULL,
 
     CONSTRAINT "Company_pkey" PRIMARY KEY ("id")
 );

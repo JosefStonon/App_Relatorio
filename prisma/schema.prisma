@@ -12,7 +12,12 @@ model Company {
   nameCompany String    @unique
   tradeName   String    @unique
   cnpj        String    @unique
-  address     String
+  cep         String
+  rua         String
+  numero      String
+  bairro      String
+  cidade      String
+  estado      String
   machines    Machine[]
 
   @@index([nameCompany])

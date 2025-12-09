@@ -6,7 +6,18 @@ export const routesCompany: FastifyPluginAsync = async (fastify) => {
   fastify.post(
     '/',
     async (request: FastifyRequest<{ Body: Company }>, reply) => {
-      const { id, address, cnpj, nameCompany, tradeName } = request.body;
+      const {
+        id,
+        cep,
+        rua,
+        numero,
+        bairro,
+        cidade,
+        estado,
+        cnpj,
+        nameCompany,
+        tradeName,
+      } = request.body;
 
       const companies = await prismaClient.company.create({
         data: {
@@ -14,14 +25,24 @@ export const routesCompany: FastifyPluginAsync = async (fastify) => {
           nameCompany,
           tradeName,
           cnpj,
-          address,
+          cep,
+          rua,
+          numero,
+          bairro,
+          cidade,
+          estado,
         },
         select: {
           id: true,
           nameCompany: true,
           tradeName: true,
           cnpj: true,
-          address: true,
+          cep: true,
+          rua: true,
+          numero: true,
+          bairro: true,
+          cidade: true,
+          estado: true,
         },
       });
 
@@ -48,8 +69,13 @@ export const routesCompany: FastifyPluginAsync = async (fastify) => {
         id: true,
         nameCompany: true,
         cnpj: true,
-        address: true,
         tradeName: true,
+        cep: true,
+        rua: true,
+        numero: true,
+        bairro: true,
+        cidade: true,
+        estado: true,
       },
     });
 
@@ -63,14 +89,29 @@ export const routesCompany: FastifyPluginAsync = async (fastify) => {
       reply,
     ) => {
       const { id } = request.params;
-      const { nameCompany, address, tradeName, cnpj } = request.body;
+      const {
+        nameCompany,
+        cep,
+        rua,
+        numero,
+        bairro,
+        cidade,
+        estado,
+        tradeName,
+        cnpj,
+      } = request.body;
 
       const upDate = await prismaClient.company.update({
         data: {
           nameCompany,
           cnpj,
           tradeName,
-          address,
+          cep,
+          rua,
+          numero,
+          bairro,
+          cidade,
+          estado,
         },
         where: {
           id,
