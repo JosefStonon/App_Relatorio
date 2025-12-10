@@ -55,6 +55,7 @@ export const routesCompany: FastifyPluginAsync = async (fastify) => {
       select: {
         machines: {
           select: {
+            id: true,
             nameMachine: true,
             tagEquipment: true,
             haritage: true,
