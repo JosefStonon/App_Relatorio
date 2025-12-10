@@ -36,6 +36,8 @@ export function Form() {
     console.log('Dados do formulário:', data);
     try {
       const company: IformData = {
+        invoicesMachine: [],
+        id: data.id,
         nameCompany: data.nameCompany,
         tradeName: data.tradeName,
         cnpj: data.cnpj,

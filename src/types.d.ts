@@ -6,6 +6,7 @@ export interface RequestOptions {
 
 export type Idata = {
   invoices: IformData[];
+  invoicesMachine?: ImachineData[];
   onConfirm: (id: string) => Promise<void>;
 };
 
@@ -14,7 +15,7 @@ export type IdataMachine = {
 };
 
 export interface IformData {
-  id?: string;
+  id: string;
   nameCompany: string;
   tradeName: string;
   cnpj: number;
@@ -24,6 +25,7 @@ export interface IformData {
   bairro: string;
   cidade: string;
   estado: string;
+  invoicesMachine: ImachineData[];
 }
 
 export interface ImachineData {

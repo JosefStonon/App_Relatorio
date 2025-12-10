@@ -10,6 +10,14 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
   Table,
   TableBody,
   TableCell,
@@ -30,12 +38,13 @@ import {
   VolumeOffIcon,
 } from 'lucide-react';
 
-export function CompanyTable({ invoices, onConfirm }: Idata) {
+export function CompanyTable({ invoices, onConfirm, invoicesMachine }: Idata) {
   return (
     <Table className="bg-slate-100">
       <TableHeader>
         <TableRow>
           <TableHead className="w-[100px]">Companies</TableHead>
+          <TableHead className="w-[100px]">Machine</TableHead>
           <TableHead>Trade Name</TableHead>
           <TableHead>CNPJ</TableHead>
           <TableHead className="text-right">CEP</TableHead>
@@ -50,6 +59,29 @@ export function CompanyTable({ invoices, onConfirm }: Idata) {
         {invoices.map((invoice) => (
           <TableRow key={invoice.id}>
             <TableCell className="font-medium">{invoice.nameCompany}</TableCell>
+            <TableCell>
+              <Select>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Select a fruit" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {invoicesMachine
+                      ?.filter((machine) => machine.companyId === invoice.id)
+                      .map((machines) => (
+                        <SelectItem
+                          key={machines.nameMachine}
+                          value={machines.nameMachine}
+                        >
+                          {machines.nameMachine}
+                        </SelectItem>
+                      ))}
+
+                    <SelectItem value="apple">Select machine</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </TableCell>
             <TableCell>{invoice.tradeName}</TableCell>
             <TableCell>{invoice.cnpj}</TableCell>
             <TableCell className="text-right">{invoice.cep}</TableCell>
