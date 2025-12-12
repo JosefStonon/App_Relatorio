@@ -62,7 +62,7 @@ export function CompanyTable({ invoices, onConfirm, invoicesMachine }: Idata) {
             <TableCell>
               <Select>
                 <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Select a fruit" />
+                  <SelectValue placeholder="Select a machine" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
@@ -76,8 +76,6 @@ export function CompanyTable({ invoices, onConfirm, invoicesMachine }: Idata) {
                           {machines.nameMachine}
                         </SelectItem>
                       ))}
-
-                    <SelectItem value="apple">Select machine</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>
