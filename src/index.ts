@@ -3,6 +3,8 @@ import Fastify from 'fastify';
 import { routesAvaliation } from './routes/avaliation';
 import { routesCompany } from './routes/company';
 import { routesMachine } from './routes/machine';
+import ejs from 'ejs';
+
 const app = Fastify();
 
 app.register(fastifyCors, {

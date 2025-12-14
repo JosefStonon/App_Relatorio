@@ -1,4 +1,7 @@
+import ejs from 'ejs';
 import { FastifyPluginAsync, FastifyRequest } from 'fastify';
+import pdf from 'html-pdf';
+import path from 'path';
 import { prismaClient } from '../lib';
 import { Company } from '../types/types';
 
@@ -47,6 +50,64 @@ export const routesCompany: FastifyPluginAsync = async (fastify) => {
       });
 
       reply.code(201).send(companies);
+    },
+  );
+
+  fastify.get(
+    '/pdf/:id',
+    async (request: FastifyRequest<{ Params: { id: string } }>, reply) => {
+      const { id } = request.params;
+      const company = await prismaClient.company.findUnique({
+        where: { id: id },
+        select: {
+          id: true,
+          nameCompany: true,
+          tradeName: true,
+          cnpj: true,
+          cep: true,
+          rua: true,
+          numero: true,
+          bairro: true,
+          cidade: true,
+          estado: true,
+        },
+      });
+
+      if (!company) {
+        return reply.code(404).send({ message: 'Company not found' });
+      }
+
+      const filePath = path.join(__dirname, '../lib/templates/index.ejs');
+      ejs.renderFile(
+        filePath,
+        { company },
+        (err: Error | null, html: string) => {
+          if (err) {
+            console.error('Error rendering EJS template:', err); // Melhor log
+            return reply.code(500).send({ message: 'Error generating PDF' });
+          }
+
+          const options = {
+            height: '11.25in',
+            width: '8.5in',
+            header: {
+              height: '20mm',
+            },
+            footer: {
+              height: '20mm',
+            },
+          };
+
+          pdf.create(html, options).toFile('report.pdf', (pdfErr, buffer) => {
+            if (pdfErr) {
+              console.error('Error creating PDF:', pdfErr); // Melhor log
+              return reply.code(500).send('Error generating PDF');
+            }
+
+            reply.send({ message: 'pfd generated successfully' });
+          });
+        },
+      );
     },
   );
 
