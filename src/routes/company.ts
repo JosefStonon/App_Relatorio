@@ -1,7 +1,7 @@
 import ejs from 'ejs';
 import { FastifyPluginAsync, FastifyRequest } from 'fastify';
-import pdf from 'html-pdf';
 import path from 'path';
+import puppeteer from 'puppeteer';
 import { prismaClient } from '../lib';
 import { Company } from '../types/types';
 
@@ -54,7 +54,7 @@ export const routesCompany: FastifyPluginAsync = async (fastify) => {
   );
 
   fastify.get(
-    '/pdf/:id',
+    '/pdf/:id/download',
     async (request: FastifyRequest<{ Params: { id: string } }>, reply) => {
       const { id } = request.params;
       const company = await prismaClient.company.findUnique({
@@ -78,36 +78,42 @@ export const routesCompany: FastifyPluginAsync = async (fastify) => {
       }
 
       const filePath = path.join(__dirname, '../lib/templates/index.ejs');
-      ejs.renderFile(
-        filePath,
-        { company },
-        (err: Error | null, html: string) => {
-          if (err) {
-            console.error('Error rendering EJS template:', err); // Melhor log
-            return reply.code(500).send({ message: 'Error generating PDF' });
-          }
+      let htmlGenerated: string;
+      try {
+        htmlGenerated = await ejs.renderFile(filePath, { company });
+      } catch (err) {
+        console.error('Error rendering EJS template:', err);
+        return reply.code(500).send({ message: 'Error generating PDF' });
+      }
 
-          const options = {
-            height: '11.25in',
-            width: '8.5in',
-            header: {
-              height: '20mm',
-            },
-            footer: {
-              height: '20mm',
-            },
-          };
+      const browser = await puppeteer.launch({ headless: true });
+      const page = await browser.newPage();
 
-          pdf.create(html, options).toFile('report.pdf', (pdfErr, buffer) => {
-            if (pdfErr) {
-              console.error('Error creating PDF:', pdfErr); // Melhor log
-              return reply.code(500).send('Error generating PDF');
-            }
+      await page.setContent(htmlGenerated, {
+        waitUntil: 'networkidle0',
+      });
 
-            reply.send({ message: 'pfd generated successfully' });
-          });
+      const pdfBuffer = await page.pdf({
+        format: 'A4',
+        printBackground: true,
+        margin: {
+          top: '20px',
+          bottom: '40px',
+          left: '20px',
+          right: '20px',
         },
-      );
+      });
+
+      reply
+        .headers({ 'Content-Type': 'application/pdf' })
+        .header('Content-Type', 'application/pdf')
+        .header('Content-Disposition', 'inline; filename=company.pdf');
+
+      await browser.close();
+
+      reply.send(pdfBuffer);
+
+      /*  */
     },
   );
 
