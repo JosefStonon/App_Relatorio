@@ -1,15 +1,16 @@
 import type { IformData } from '../types';
 import HttpClient from './Utils/HttpClient';
 
+const API_URL = import.meta.env.VITE_API_URL;
 class CompanyService {
   HttpClient: HttpClient;
 
   constructor() {
-    this.HttpClient = new HttpClient('http://localhost:3001');
+    this.HttpClient = new HttpClient(`${API_URL}`);
   }
 
   async createCompany(data: IformData) {
-    return this.HttpClient.post(`/companies`, {
+    return this.HttpClient.post(`/comp`, {
       method: 'POST',
       body: data,
       headers: { 'Content-Type': 'application/json' },
@@ -17,14 +18,14 @@ class CompanyService {
   }
 
   async getCompany() {
-    return this.HttpClient.get<IformData[]>('/companies', {
+    return this.HttpClient.get<IformData[]>('/comp', {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     });
   }
 
   upDateCompany(id: string, data: IformData) {
-    return this.HttpClient.put(`/companies/${id}`, {
+    return this.HttpClient.put(`/comp/${id}`, {
       method: 'PUT',
       body: data,
       headers: { 'Content-Type': 'application/json' },
@@ -32,7 +33,7 @@ class CompanyService {
   }
 
   deleteCompany(id: string) {
-    return this.HttpClient.delete(`/companies/${id}`, {
+    return this.HttpClient.delete(`/comp/${id}`, {
       method: 'DELETE',
     });
   }

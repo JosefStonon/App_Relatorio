@@ -7,11 +7,11 @@ import type { Ierrors, IformData } from '../../types';
 export function Form() {
   const {
     handleSubmit: form,
-    register,
+    register, //registra os campos do formulario
     formState,
-    reset,
-    getValues,
-    setValue,
+    reset, //reseta o formulario
+    getValues, //pega o valor do campo
+    setValue, //seta/coloca o valor do campo
   } = useForm<IformData>({});
 
   const { toast } = useToast();
@@ -26,7 +26,6 @@ export function Form() {
       setValue('bairro', data.bairro);
       setValue('cidade', data.localidade);
       setValue('estado', data.uf);
-      console.log('Endereço encontrado:', data);
     } catch (error) {
       console.error('Erro ao buscar o CEP:', error);
     }
@@ -36,6 +35,8 @@ export function Form() {
     console.log('Dados do formulário:', data);
     try {
       const company: IformData = {
+        invoicesMachine: [],
+        id: data.id,
         nameCompany: data.nameCompany,
         tradeName: data.tradeName,
         cnpj: data.cnpj,

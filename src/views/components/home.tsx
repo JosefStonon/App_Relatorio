@@ -77,7 +77,11 @@ export function Home() {
         </Button>
       </div>
       <div className="p-10">
-        <CompanyTable invoices={company} onConfirm={deleteCompany} />
+        <CompanyTable
+          invoices={company}
+          onConfirm={deleteCompany}
+          invoicesMachine={machine}
+        />
       </div>
 
       <div className="flex flex-row justify-center">
